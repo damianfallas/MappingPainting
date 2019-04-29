@@ -104,8 +104,6 @@ class PaintPanel {
     
     drawTool();
     graphics.endDraw();
-    
-    parent.image(graphics, 0, 0);
   }
   
   void selectedColorUp() {
@@ -113,15 +111,15 @@ class PaintPanel {
   }
   
   void selectedColorDown() {
-    this.selectedcolor = (selectedcolor - 1 < 0)? 15: selectedcolor - 1;
+    this.selectedcolor = (selectedcolor - 1 < 0)? 0: selectedcolor - 1;
   }
   
   void selectedStrokeUp() {
-    this.selectedStroke = (selectedStroke - 1 < 0)? 6: selectedStroke - 1;
+    this.selectedStroke = (selectedStroke + 1 > 6)? 6: selectedStroke + 1;
   }
   
   void selectedStrokeDown() {
-    this.selectedStroke = (selectedStroke + 1) % 7;
+    this.selectedStroke = (selectedStroke - 1 < 0)? 0: selectedStroke - 1;
   }
   
   void selectedToolUp() {
