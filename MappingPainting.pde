@@ -1,40 +1,55 @@
 import codeanticode.tablet.*;
+import codeanticode.syphon.*;
 
 Tablet tablet;
 PApplet parent;
 PaintBoard[] paintboards;
 PaintPanel paintpanel;
+SyphonServer[] servers;
 
 int selectedboard;
 
 void setup() {
-  size(1600,400, P3D);
-
-  //fullScreen(P3D);
+  //size(800,600, P3D);
+  fullScreen(P3D);
+  
   paintboards = new PaintBoard[7];
   paintpanel = new PaintPanel(this);
   tablet = new Tablet(this);
   selectedboard = 0;
   
   paintboards[0] = new PaintBoard(this, 800, 800, "Fondo 1");
-  paintboards[1] = new PaintBoard(this, 800, 6180, "F 2");
-  paintboards[2] = new PaintBoard(this, 800, 6180, "Suelo");
-  paintboards[3] = new PaintBoard(this, 800, 6180, "Pared 1");
+  paintboards[1] = new PaintBoard(this, 800, 600, "Fondo 2");
+  paintboards[2] = new PaintBoard(this, 800, 600, "Suelo");
+  paintboards[3] = new PaintBoard(this, 800, 600, "Pared 1");
   paintboards[4] = new PaintBoard(this, 800, 800, "Pared 2");
-  paintboards[5] = new PaintBoard(this, 800, 6180, "Techo 1");
-  paintboards[6] = new PaintBoard(this, 800, 6180, "Techo 2");
+  paintboards[5] = new PaintBoard(this, 800, 600, "Techo 1");
+  paintboards[6] = new PaintBoard(this, 800, 600, "Techo 2");
   
   paintboards[0].setSeleted(true);
+  
+  // Create syhpon servers to send frames out.
+  servers = new SyphonServer[8];
+  for (int i = 0; i < 7; i++) { 
+    servers[i] = new SyphonServer(this, paintboards[i].getBoardName());
+  }
+  servers[7] = new SyphonServer(this, "Paint Panel");
 }
 
 void draw() {
   background(#ffffff);
-  paintboards[0].draw();
-  translate(400, 0);
-  translate(-400, 400);
-  paintpanel.draw();
   
-  //image(paintboard.getBoard(), 0, 0); 
+  for (int i = 0; i < 7; i++) {
+    paintboards[i].draw();
+    servers[i].sendImage(paintboards[i].getBoard());  
+  }
+  paintpanel.draw();
+  servers[7].sendImage(paintpanel.getPanel()); 
+  
+  image(paintpanel.getPanel(), 10, 40);
+  image(paintboards[selectedboard].getBoard(), 10, 40);
+  fill(50);
+  text("Selected Board: " + selectedboard, 10, 10);
 }
 
 void keyPressed() {
