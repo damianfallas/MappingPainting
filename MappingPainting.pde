@@ -6,6 +6,7 @@ PApplet parent;
 PaintBoard[] paintboards;
 PaintPanel paintpanel;
 SyphonServer[] servers;
+PaintOver paintover;
 
 int selectedboard;
 
@@ -15,6 +16,7 @@ void setup() {
   
   paintboards = new PaintBoard[7];
   paintpanel = new PaintPanel(this);
+  paintover = new PaintOver(this, 800, 800, "Over");
   tablet = new Tablet(this);
   selectedboard = 0;
   
@@ -46,8 +48,11 @@ void draw() {
   paintpanel.draw();
   servers[7].sendImage(paintpanel.getPanel()); 
   
+  paintover.draw();
+  
   image(paintpanel.getPanel(), 10, 40);
-  image(paintboards[selectedboard].getBoard(), 10, 40);
+  image(paintboards[selectedboard].getBoard(), 0, 0);
+  image(paintover.getOver(), 0, 0);
   fill(50);
   text("Selected Board: " + selectedboard, 10, 10);
 }

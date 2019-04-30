@@ -35,12 +35,12 @@ class PaintBoard {
   
   void draw() {
       graphics.beginDraw();
-      if(selected) {  
-        parent.noFill();
-        parent.strokeWeight(4);
-        parent.stroke(204, 102, 0);
-        parent.rect(1, 1, w-2, h-2);
-      }
+      //if(selected) {  
+      //  parent.noFill();
+      //  parent.strokeWeight(4);
+      //  parent.stroke(204, 102, 0);
+      //  parent.rect(1, 1, w-2, h-2);
+      //}
       
       if(selected) {
         if(tool == 0){
@@ -85,5 +85,8 @@ class PaintBoard {
   
   void setSeleted(boolean selected) {
     this.selected = selected;
+  }
+  String getBoardName() {
+    return boardname;
   }
 }
